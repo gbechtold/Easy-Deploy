@@ -219,6 +219,27 @@ See [CLAUDE-CODE-INTEGRATION.md](CLAUDE-CODE-INTEGRATION.md) for:
 - Best practices
 - Troubleshooting
 
+## Additional Fixes (Post-Initial Implementation)
+
+### Fix 1: Input Library Conflicts ✅
+**Problem**: prompts/inquirer libraries caused double character input and crashes
+**Solution**: Created custom `simplePrompt()` using Node's built-in readline
+**Result**: Zero dependencies for input, no conflicts with blessed
+
+### Fix 2: Array Bounds Crashes ✅
+**Problem**: Invalid menu input (like "11") crashed with "Cannot read properties of undefined"
+**Solution**: Added bounds checking with fallback to default values
+**Result**: Graceful handling of any input
+
+### Fix 3: Terminal State Cleanup ✅
+**Problem**: Blessed screen state interfering with readline
+**Solution**: Added 100ms delay and explicit terminal mode
+**Result**: Clean transition from dashboard to wizard
+
+### Wizard Verification ✅
+**Test**: `node test-wizard.js`
+**Result**: **WORKING PERFECTLY** - no double characters, all input types functional
+
 ## Success Metrics
 
 ✅ All Phase 1 todos completed
@@ -226,6 +247,9 @@ See [CLAUDE-CODE-INTEGRATION.md](CLAUDE-CODE-INTEGRATION.md) for:
 ✅ Smart dashboard with state detection
 ✅ CLI commands fixed
 ✅ Documentation updated
+✅ **Wizard working perfectly in direct mode**
+✅ Input library conflicts resolved
+✅ Graceful error handling for invalid input
 ✅ Ready for Phase 2 implementation
 
 ## Try It Now!
