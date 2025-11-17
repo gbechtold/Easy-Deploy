@@ -1,0 +1,24 @@
+# Files to exclude from npm package
+
+# Development files
+.env*
+*.log
+.DS_Store
+
+# Test and CI
+coverage/
+.github/
+
+# Documentation examples
+examples/
+docs/
+
+# User data
+data/
+artifacts/
+logs/
+backups/
+
+# IDE
+.vscode/
+.idea/
