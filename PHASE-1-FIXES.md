@@ -174,9 +174,32 @@ lib/ui/components.js         [+2 lines]  - Enhanced dialog controls
 - [x] All keyboard shortcuts documented in UI
 - [x] No console errors during retry
 
+## Issue 3: Double Character Input & Prompts Conflict ❌
+
+**Problem**: Characters typed appearing twice (PPrriiccee--CCoommppaarriissoonn), and prompts library causing errors with blessed.
+
+**User Experience**: User couldn't type properly in wizard, got TypeError: Cannot read properties of undefined (reading 'meta').
+
+### Fix 3: Replaced prompts with readline ✅
+**Files**: `lib/wizard.js`, `package.json`
+
+**Changes**:
+1. Removed prompts and inquirer dependencies (both conflict with blessed)
+2. Created `simplePrompt()` function using Node's built-in readline module
+3. Updated `initialize()` and `addArtifact()` to use simplePrompt
+4. No external dependencies needed for user input
+
+**New simplePrompt() supports**:
+- Text input with defaults
+- Number input with validation
+- Select (numbered choices)
+- Confirm (Y/n)
+
+**Result**: No more double characters, no library conflicts, cleaner code!
+
 ## Next Steps
 
-These fixes complete Phase 1's UX polish. Ready to commit and move to Phase 2 (Watch Mode, Health Checker, Auto-Fixer).
+Phase 1 UX fixes complete! Ready to test and move to Phase 2 (Watch Mode, Health Checker, Auto-Fixer).
 
 ---
 
