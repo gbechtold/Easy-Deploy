@@ -8,7 +8,9 @@
       "Bash(git branch:*)",
       "Bash(git push:*)",
       "Bash(npm uninstall:*)",
-      "Bash(npm start)"
+      "Bash(npm start)",
+      "Bash(cat:*)",
+      "Bash(node bin/easy-deploy.js:*)"
     ],
     "deny": [],
     "ask": []

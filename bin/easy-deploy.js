@@ -36,8 +36,16 @@ program.action(async () => {
   try {
     const dashboard = new SmartDashboard();
     await dashboard.launch();
+
+    // Keep process alive (dashboard handles its own exit)
+    process.on('SIGINT', () => {
+      dashboard.cleanup();
+      process.exit(0);
+    });
+
   } catch (error) {
     console.error(chalk.red('Error launching dashboard:'), error.message);
+    console.error(error.stack);
     process.exit(1);
   }
 });
