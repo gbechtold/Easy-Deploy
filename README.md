@@ -24,6 +24,8 @@ Easy Deploy streamlines the deployment of web applications, with special support
 
 ### Installation
 
+#### Option 1: Install from GitHub (Development)
+
 ```bash
 # Clone the repository
 git clone https://github.com/gbechtold/Easy-Deploy.git
@@ -32,11 +34,51 @@ cd Easy-Deploy
 # Install dependencies
 npm install
 
-# Link for global use (optional)
+# Link globally (makes 'easy-deploy' command available)
 npm link
 ```
 
+#### Option 2: Install from npm (Coming Soon)
+
+```bash
+npm install -g easy-deploy
+```
+
+### First Launch
+
+Simply run `easy-deploy` with no arguments to launch the smart dashboard:
+
+```bash
+# Launch interactive dashboard (auto-detects project state)
+easy-deploy
+```
+
+The smart dashboard will:
+- ✅ Detect if this is your first launch and guide you through setup
+- ✅ Check for existing configuration
+- ✅ Verify Docker is running
+- ✅ Scan for artifacts
+- ✅ Show deployment status if already deployed
+- ✅ Detect and suggest fixes for configuration errors
+
+### Usage Examples
+
+```bash
+# Development mode (in Easy-Deploy repo)
+npm start              # Launches CLI (shows help)
+npm run server         # Starts Express server directly
+npm run dev           # Starts server with nodemon (hot reload)
+
+# After npm link (global command)
+easy-deploy            # Launch smart dashboard (recommended)
+easy-deploy init       # Initialize new project
+easy-deploy deploy     # Deploy application
+easy-deploy status     # Check deployment status
+```
+
 ### Initialize a New Project
+
+If the dashboard detects no configuration, it will offer Quick Setup. Or run manually:
 
 ```bash
 # Run the setup wizard
@@ -48,7 +90,7 @@ easy-deploy init --name my-app --provider claude
 
 The wizard will guide you through:
 - Project name and configuration
-- Artifact provider selection
+- Artifact provider selection (Claude, local, URL, GitHub)
 - Server and deployment settings
 - Database choice (SQLite/PostgreSQL)
 - OAuth configuration
@@ -57,13 +99,14 @@ The wizard will guide you through:
 ### Deploy Your Application
 
 ```bash
-# Launch interactive dashboard
+# Option 1: Use the dashboard (recommended)
 easy-deploy
+# Then press 'D' to deploy
 
-# Or quick deploy without UI
+# Option 2: Direct deployment
 easy-deploy deploy
 
-# Or use the quick command
+# Option 3: Quick deploy (no UI)
 easy-deploy quick
 ```
 

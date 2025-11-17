@@ -8,6 +8,8 @@
   },
   "scripts": {
     "start": "node bin/easy-deploy.js",
+    "server": "node server/app.js",
+    "dev": "nodemon server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

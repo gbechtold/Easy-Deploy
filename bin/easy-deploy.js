@@ -4,37 +4,51 @@ const { Command } = require('commander');
 const chalk = require('chalk');
 const figlet = require('figlet');
 const packageJson = require('../package.json');
-const Dashboard = require('../lib/ui/dashboard');
+const SmartDashboard = require('../lib/ui/dashboard-smart');
 const wizard = require('../lib/wizard');
 const deploy = require('../lib/deploy');
 const { checkStatus } = require('../lib/docker');
 
 const program = new Command();
 
-// Display banner
-console.log(
-  chalk.cyan(
-    figlet.textSync('Easy Deploy', {
-      font: 'Standard',
-      horizontalLayout: 'default'
-    })
-  )
-);
+// Don't show banner when running without arguments (default dashboard)
+const showBanner = process.argv.length > 2;
 
-console.log(chalk.gray(`v${packageJson.version} - Provider-agnostic deployment made easy\n`));
+if (showBanner) {
+  console.log(
+    chalk.cyan(
+      figlet.textSync('Easy Deploy', {
+        font: 'Standard',
+        horizontalLayout: 'default'
+      })
+    )
+  );
+  console.log(chalk.gray(`v${packageJson.version} - Provider-agnostic deployment made easy\n`));
+}
 
 program
   .name('easy-deploy')
   .description('Deploy Claude artifacts and web apps with Docker, GitHub, and OAuth')
   .version(packageJson.version);
 
-// Main command - launches terminal UI
+// Default action - launch smart dashboard when no command provided
+program.action(async () => {
+  try {
+    const dashboard = new SmartDashboard();
+    await dashboard.launch();
+  } catch (error) {
+    console.error(chalk.red('Error launching dashboard:'), error.message);
+    process.exit(1);
+  }
+});
+
+// Dashboard command (explicit)
 program
-  .command('dashboard', { isDefault: true })
+  .command('dashboard')
   .description('Launch interactive terminal dashboard')
   .action(async () => {
     try {
-      const dashboard = new Dashboard();
+      const dashboard = new SmartDashboard();
       await dashboard.launch();
     } catch (error) {
       console.error(chalk.red('Error launching dashboard:'), error.message);
@@ -151,8 +165,3 @@ program
   });
 
 program.parse(process.argv);
-
-// Show help if no command specified
-if (!process.argv.slice(2).length) {
-  program.outputHelp();
-}

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Easy Deploy - Deployed</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .container {
+      text-align: center;
+      padding: 3rem;
+      max-width: 800px;
+    }
+
+    h1 {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      animation: fadeInDown 0.6s ease-out;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 30px;
+      margin: 1.5rem 0;
+      font-size: 1.1rem;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .subtitle {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      margin: 1rem 0;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .info {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 2rem 0;
+      animation: fadeInUp 1.2s ease-out;
+    }
+
+    .info h2 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .info-item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .info-label {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-value {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+      animation: fadeIn 1.4s ease-out;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+
+    a:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .footer {
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      opacity: 0.6;
+      animation: fadeIn 1.6s ease-out;
+    }
+
+    code {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Easy Deploy</h1>
+
+    <div class="status">
+      <span class="status-dot"></span>
+      <span>Running</span>
+    </div>
+
+    <p class="subtitle">Your application is successfully deployed!</p>
+
+    <div class="info">
+      <h2>📊 System Status</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">Environment</div>
+          <div class="info-value" id="environment">Loading...</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Uptime</div>
+          <div class="info-value" id="uptime">Loading...</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Memory</div>
+          <div class="info-value" id="memory">Loading...</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Node Version</div>
+          <div class="info-value" id="node-version">Loading...</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="links">
+      <a href="/health">Health Check</a>
+      <a href="/api/status">API Status</a>
+      <a href="/api/artifacts">Artifacts</a>
+      <a href="/api/deployments">Deployments</a>
+    </div>
+
+    <div class="footer">
+      <p>Deployed with Easy Deploy</p>
+      <p style="margin-top: 0.5rem;">Created by StarsMedia.com</p>
+    </div>
+  </div>
+
+  <script>
+    // Fetch and display system status
+    async function updateStatus() {
+      try {
+        const response = await fetch('/health');
+        const data = await response.json();
+
+        document.getElementById('environment').textContent = data.environment;
+        document.getElementById('uptime').textContent = formatUptime(data.uptime);
+        document.getElementById('memory').textContent = `${data.memory.used}MB / ${data.memory.total}MB`;
+        document.getElementById('node-version').textContent = process.version || 'N/A';
+      } catch (error) {
+        console.error('Failed to fetch status:', error);
+      }
+    }
+
+    function formatUptime(seconds) {
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${hours}h ${minutes}m ${secs}s`;
+    }
+
+    // Update status on load and every 30 seconds
+    updateStatus();
+    setInterval(updateStatus, 30000);
+  </script>
+</body>
+</html>
